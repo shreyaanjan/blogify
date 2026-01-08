@@ -1,0 +1,24 @@
+<%- include('./partials/start.ejs') %>
+    <div class="col-lg-10 p-4">
+        <h2>Add Blog</h2>
+        <form action="/blog/add-blog" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name">
+            </div>
+            <div class="mb-3">
+                <label for="file" class="form-label">Cover</label>
+                <input type="file" class="form-control" id="file" name="file" accept="image/*">
+            </div>
+            <div class="mb-3">
+                <label for="desc" class="form-label">Description</label>
+                <textarea class="form-control" name="desc" id="desc" rows="5"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="tags" class="form-label">Tags</label>
+                <input type="text" class="form-control" name="tags" id="tags">
+            </div>
+            <button class="btn btnn">Add a New Blog</button>
+        </form>
+    </div>
+<%- include('./partials/end.ejs') %>
