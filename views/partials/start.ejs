@@ -11,15 +11,28 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark custom-header">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold ms-2" href="/">Blogify</a>
-            <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
-                data-bs-target="#sidebarMenu">
+        <div class="container-fluid d-flex align-items-center">
+
+            <!-- Logo -->
+            <a class="navbar-brand fw-bold" href="/">Blogify</a>
+
+            <!-- Menu Button (Sidebar Toggle) -->
+            <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <form action="/auth/logout" method="post">
-                <button class="btn btn-outline-light btn-sm d-none d-lg-block">Logout</button>
-            </form>
+
+            <!-- User + Logout (Always visible, one line) -->
+            <div class="d-flex align-items-center gap-2 ms-auto">
+                <a href="/blog/profile">
+                    <img src="/assets/images/user_1.jfif" alt="User" class="user-avatar">
+                </a>
+                <form action="/auth/logout" method="post" class="m-0">
+                    <button class="btn btn-outline-light btn-sm">
+                        Logout
+                    </button>
+                </form>
+            </div>
+
         </div>
     </nav>
     <div class="container-fluid">

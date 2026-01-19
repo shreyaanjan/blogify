@@ -192,3 +192,57 @@ body {
   padding: 6px 10px;
   border-radius: 6px;
 }
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    cursor: pointer;
+}
+
+.blog-view-card {
+    width: 100%;
+    max-width: 700px;   /* card size */
+    border-radius: 12px;
+}
+
+.blog-view-img {
+    width: 100%;
+    height: 280px;      /* medium height */
+    object-fit: contain;
+    border-radius: 12px 12px 0 0;
+}
+
+/* Sidebar transition */
+@media (max-width: 991px) {
+    #sidebarMenu {
+        position: fixed;
+        top: 56px; /* height of navbar */
+        left: 0;
+        width: 250px;
+        height: 100%;
+        /* background-color: #1e1e2f; */
+        transform: translateX(-100%);
+        transition: transform 0.35s ease-in-out;
+        z-index: 1050;
+    }
+
+    #sidebarMenu.show {
+        transform: translateX(0);
+    }
+}
+
+/* Clean navbar toggler focus */
+.navbar-toggler {
+    padding: 3px 10px;          /* medium size */
+    border-radius: 6px;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3); /* subtle ring */
+}

@@ -8,6 +8,7 @@ const viewAuthRouter = require('./routes/viewAuthRouter.js')
 const cookieParser = require('cookie-parser')
 const blogRouter = require('./routes/blogRouter.js')
 const clientRouter = require('./routes/clientRouter.js')
+const authMiddleware = require('./middlewares/auth.js')
 
 const app = express()
 const PORT = process.env.PORT
@@ -25,7 +26,7 @@ connectDb()
 app.use('/api/auth', authRouter)
 // EJS
 app.use('/auth', viewAuthRouter)
-app.use('/blog', blogRouter)
+app.use('/blog', authMiddleware, blogRouter)
 app.use('/', clientRouter)
 
 app.listen(PORT, (err) => {

@@ -1,13 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>User Profile</h1>
-    <h2><%= user.name %></h2>
-    <span><%= user.email %></span>
-</body>
-</html>
+<%- include('./partials/start.ejs') %>
+    <div class="col-lg-10 p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="mb-0">
+                <%= user.name %>'s Blogs
+            </h4>
+            <a href="/blog/add-blog" class="btn btn-sm btn-dark">
+                + Add New Blog
+            </a>
+        </div>
+        <div class="row g-4">
+            <% if (userBlogs.length===0) { %>
+                <div class="col-12">
+                    <div class="alert alert-info text-center">
+                        You haven’t created any blogs yet.
+                    </div>
+                </div>
+                <% } %>
+
+                    <% userBlogs.forEach(blog=> { %>
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <div class="card blog-card h-100 border-0 shadow-sm">
+                                <img src="/<%= blog.file %>" class="card-img-top blog-img" alt="<%= blog.name %>">
+                                <div class="card-body d-flex flex-column text-start">
+                                    <div class="mb-2">
+                                        <% blog.tags.split(',').forEach(tag=> { %>
+                                            <span class="badge me-1 custom-tag">
+                                                <%= tag.trim() %>
+                                            </span>
+                                            <% }) %>
+                                    </div>
+                                    <h5 class="card-title">
+                                        <%= blog.name %>
+                                    </h5>
+                                    <p class="card-text text-muted">
+                                        <%= blog.desc.length> 120
+                                            ? blog.desc.slice(0, 120) + '...'
+                                            : blog.desc %>
+                                    </p>
+                                    <div class="mt-auto d-flex justify-content-between align-items-center">
+                                        <a href="/blog/<%= blog._id %>" class="btn btn-sm read-btn">
+                                            Read More
+                                        </a>
+                                        <div class="d-flex gap-2">
+                                            <a href="/blog/edit-blog/<%= blog._id %>" class="btn btn-sm btn-success">
+                                                Edit
+                                            </a>
+                                            <a href="/blog/delete-blog/<%= blog._id %>" class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Are you sure you want to delete this blog?')">
+                                                Delete
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <% }) %>
+
+        </div>
+    </div>
+<%- include('./partials/end.ejs') %>
