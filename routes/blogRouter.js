@@ -23,19 +23,25 @@ router.get("/profile", async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
+        const { id } = req.user
+
+        const user = await User.findById(id).select('-password -createdAt -updatedAt')
         const blogs = await Blogs.find({}).populate('author', 'name')
-        console.log(blogs);
+        
         return res.render('index', {
-            blogs
+            blogs, user
         })
     } catch (error) {
         console.log(error);
     }
 })
 
-router.get('/add-blog', (req, res) => {
+router.get('/add-blog', async (req, res) => {
     try {
-        return res.render('addBlog')
+        const { id } = req.user
+
+        const user = await User.findById(id).select('-password -createdAt -updatedAt')
+        return res.render('addBlog', { user })
     } catch (error) {
         console.log(error);
     }
@@ -78,9 +84,13 @@ router.get('/delete-blog/:id', async (req, res) => {
 router.get('/edit-blog/:id', async (req, res) => {
     try {
         const { id } = req.params
+        const userId = req.user.id
+
+        const user = await User.findById(userId).select('-password -createdAt -updatedAt')
         const editBlog = await Blogs.findById(id)
+
         return res.render('editBlog', {
-            editBlog
+            editBlog, user
         })
     } catch (error) {
         console.log(error);
@@ -113,9 +123,12 @@ router.post('/edit-blog/:id', upload.single('file'), async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params
-        const blog = await Blogs.findById(id)
+        const userId = req.user.id
+        const user = await User.findById(userId).select('-password -createdAt -updatedAt')
+        const blog = await Blogs.findById(id).populate('author', 'name')
         return res.render('blogView', {
-            blog
+            blog,
+            user
         })
     } catch (error) {
         console.log(error);

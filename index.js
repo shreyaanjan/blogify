@@ -27,7 +27,7 @@ app.use('/api/auth', authRouter)
 // EJS
 app.use('/auth', viewAuthRouter)
 app.use('/blog', authMiddleware, blogRouter)
-app.use('/', clientRouter)
+app.use('/', authMiddleware, clientRouter)
 
 app.listen(PORT, (err) => {
     console.log(`Server is running at http://localhost:${PORT}`);

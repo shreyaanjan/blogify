@@ -1,34 +1,208 @@
 <%- include('./partials/start.ejs') %>
     <div class="col-lg-10 p-4">
-        <div class="card shadow-sm border-0 rounded-4">
-            <div class="card-body p-4">
-                <h4 class="mb-4 fw-semibold" style="color:#11142d;">Edit Blog</h4>
-                <form action="/blog/edit-blog/<%= editBlog._id %>" method="post" enctype="multipart/form-data">
-                    <div class="mb-3 d-flex justify-content-between gap-3">
-                        <div class="w-100">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" value="<%- editBlog.name %>" class="form-control" id="name" name="name">
-                        </div>
-                        <div class="w-100">
-                            <label for="file" class="form-label">Cover</label>
-                            <input type="file" value="<%- editBlog.fileName %>" class="form-control" id="file"
-                                name="file" accept="image/*">
-                            <img src="/<%= editBlog.file %>" alt="<%= editBlog.name %>" width="150px">
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="desc" class="form-label">Description</label>
-                        <textarea class="form-control" name="desc" id="desc" rows="5"><%- editBlog.desc %></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tags" class="form-label">Tags</label>
-                        <input type="text" value="<%- editBlog.tags %>" class="form-control" name="tags" id="tags">
-                    </div>
-                    <button class="btn px-4 py-2 text-white"
-                        style="background-color:#11142d; border-radius:12px;">Update
-                        Your Blog</button>
-                </form>
+        <style>
+            .form-container {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                border: 1px solid #e9ecef;
+                padding: 2rem;
+            }
+
+            .form-header {
+                margin-bottom: 2rem;
+                padding-bottom: 1rem;
+                border-bottom: 2px solid #e9ecef;
+            }
+
+            .form-title {
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: #11142d;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                gap: 0.8rem;
+            }
+
+            .form-subtitle {
+                color: #6c757d;
+                font-size: 0.95rem;
+                margin-top: 0.5rem;
+            }
+
+            .form-label {
+                font-weight: 600;
+                color: #2c3e50;
+                margin-bottom: 0.5rem;
+                font-size: 0.95rem;
+                display: flex;
+                align-items: center;
+                gap: 0.4rem;
+            }
+
+            .form-control, .form-select {
+                border: 2px solid #e9ecef;
+                border-radius: 10px;
+                padding: 0.75rem 1rem;
+                font-size: 0.95rem;
+                transition: all 0.3s;
+            }
+
+            .form-control:focus, .form-select:focus {
+                border-color: #3498db;
+                box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            }
+
+            .input-group-custom {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+            }
+
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+
+            .current-image-preview {
+                margin-top: 1rem;
+                padding: 1rem;
+                background-color: #f8f9fa;
+                border-radius: 10px;
+                text-align: center;
+            }
+
+            .current-image-preview img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .current-image-label {
+                display: block;
+                font-size: 0.85rem;
+                color: #6c757d;
+                margin-bottom: 0.5rem;
+                font-weight: 600;
+            }
+
+            textarea.form-control {
+                resize: vertical;
+                min-height: 150px;
+            }
+
+            .btn-submit {
+                background-color: #11142d;
+                color: white;
+                padding: 0.9rem 2.5rem;
+                border-radius: 10px;
+                border: none;
+                font-weight: 600;
+                font-size: 1rem;
+                transition: all 0.3s;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.6rem;
+            }
+
+            .btn-submit:hover {
+                background-color: #1c1f4a;
+                box-shadow: 0 6px 16px rgba(17, 20, 45, 0.3);
+            }
+
+            .btn-cancel {
+                background-color: #e9ecef;
+                color: #495057;
+                padding: 0.9rem 2rem;
+                border-radius: 10px;
+                border: none;
+                font-weight: 600;
+                font-size: 1rem;
+                transition: all 0.3s;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.6rem;
+                margin-left: 1rem;
+            }
+
+            .btn-cancel:hover {
+                background-color: #dee2e6;
+                color: #495057;
+            }
+
+            .helper-text {
+                font-size: 0.85rem;
+                color: #6c757d;
+                margin-top: 0.4rem;
+            }
+
+            @media (max-width: 768px) {
+                .input-group-custom {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+
+        <div class="form-container">
+            <div class="form-header">
+                <h1 class="form-title">
+                    ✏️ Edit Blog
+                </h1>
+                <p class="form-subtitle">Update your blog content and settings</p>
             </div>
+
+            <form action="/blog/edit-blog/<%= editBlog._id %>" method="post" enctype="multipart/form-data">
+                <div class="input-group-custom">
+                    <div class="form-group">
+                        <label for="name" class="form-label">
+                            📝 Blog Title
+                        </label>
+                        <input type="text" value="<%- editBlog.name %>" class="form-control" id="name" name="name" required>
+                        <div class="helper-text">Update your blog title</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="file" class="form-label">
+                            🖼️ Cover Image
+                        </label>
+                        <input type="file" class="form-control" id="file" name="file" accept="image/*">
+                        <div class="helper-text">Upload new image to replace current</div>
+                        <div class="current-image-preview">
+                            <span class="current-image-label">Current Cover:</span>
+                            <img src="/<%= editBlog.file %>" alt="<%= editBlog.name %>" style="max-width: 200px;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="desc" class="form-label">
+                        📄 Description
+                    </label>
+                    <textarea class="form-control" name="desc" id="desc" rows="8"><%- editBlog.desc %></textarea>
+                    <div class="helper-text">Edit your blog content</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="tags" class="form-label">
+                        🏷️ Tags
+                    </label>
+                    <input type="text" value="<%- editBlog.tags %>" class="form-control" name="tags" id="tags">
+                    <div class="helper-text">Separate tags with commas</div>
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-save"></i>
+                        Update Blog
+                    </button>
+                    <a href="/blog/" class="btn-cancel">
+                        <i class="fas fa-times"></i>
+                        Cancel
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
     <%- include('./partials/end.ejs') %>

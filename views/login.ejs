@@ -8,6 +8,9 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -22,15 +25,65 @@
             border-radius: 18px;
         }
 
+        .logo-icon {
+            width: 70px;
+            height: 70px;
+            background: #11142d;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .logo-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
         .brand {
             color: #11142d;
             font-weight: 600;
             letter-spacing: 1px;
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .subtitle {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-label i {
+            font-size: 0.9rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            font-size: 0.95rem;
         }
 
         .form-control {
             border-radius: 12px;
-            padding: 11px 14px;
+            padding: 11px 14px 11px 40px;
+            border: 1px solid #dee2e6;
         }
 
         .form-control:focus {
@@ -38,25 +91,48 @@
             box-shadow: 0 0 0 0.15rem rgba(17, 20, 45, 0.2);
         }
 
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+
+        .password-toggle:hover {
+            color: #11142d;
+        }
+
         .btn-login {
             background-color: #11142d;
             border: none;
             border-radius: 12px;
             padding: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-login:hover::before {
+            left: 100%;
         }
 
         .btn-login:hover {
             background-color: #1a1e4f;
-        }
-
-        .forgot-link {
-            font-size: 0.9rem;
-            color: #11142d;
-            text-decoration: none;
-        }
-
-        .forgot-link:hover {
-            text-decoration: underline;
+            box-shadow: 0 8px 20px rgba(17, 20, 45, 0.4);
         }
 
         a {
@@ -68,39 +144,78 @@
         a:hover {
             text-decoration: underline;
         }
+
+        .forgot-link {
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 
 <body>
-
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
-        <div class="card shadow-lg p-4 login-card" style="width: 100%; max-width: 400px;">
-            <h3 class="text-center brand mb-2">Blogify</h3>
-            <p class="text-center text-muted mb-4">Login to your dashboard</p>
+        <div class="card shadow-lg p-4 login-card" style="width: 100%; max-width: 420px;">
+            <div class="text-center mb-4">
+                <div class="logo-icon">
+                    <i class="fas fa-blog"></i>
+                </div>
+                <h3 class="brand mb-2">Blogify</h3>
+                <p class="subtitle mb-0">Welcome back! Please login to continue</p>
+            </div>
+
             <form action="/auth/login" method="POST">
                 <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="user@mail.com" required>
+                    <label class="form-label">
+                        <i class="fas fa-envelope"></i>
+                        Email Address
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+                    </div>
                 </div>
-                <div class="mb-2">
-                    <label class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        <i class="fas fa-lock"></i>
+                        Password
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password" required>
+                        <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                    </div>
                 </div>
+
                 <div class="text-end mb-3">
                     <a href="/auth/forgot-password" class="forgot-link">
-                        Forgot password?
+                        <i class="fas fa-question-circle"></i> Forgot password?
                     </a>
                 </div>
-                <button type="submit" class="btn btn-login text-white w-100">
-                    Login
+
+                <button type="submit" class="btn btn-login text-white w-100 mt-2">
+                    <i class="fas fa-sign-in-alt"></i> Login to Dashboard
                 </button>
             </form>
+
             <p class="text-center mt-4 mb-0">
-                Don’t have an account?
-                <a href="/auth/signup">Signup</a>
+                Don't have an account?
+                <a href="/auth/signup"><i class="fas fa-user-plus"></i> Create Account</a>
             </p>
         </div>
     </div>
+
+    <script>
+        // Password toggle functionality
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function() {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
 </body>
 
 </html>
