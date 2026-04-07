@@ -24,7 +24,7 @@ const dashboard = async (req, res) => {
 
         const user = await User.findById(id).select('-password -createdAt -updatedAt')
         const blogs = await Blogs.find({}).populate('author', 'name')
-
+        
         return res.render('index', {
             blogs, user
         })
